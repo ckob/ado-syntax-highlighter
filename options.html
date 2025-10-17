@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Syntax Highlighter for Azure Devops options</title>
+</head>
+<body>
+
+  <h1>Syntax Highlighter for Azure Devops options</h1>
+  <hr>
+
+  <h2>Granted Hosts</h2>
+
+  <h3>Default Hosts (Always Active)</h3>
+  <ul id="default-hosts-list">
+    </ul>
+
+  <h3>Manage Custom Hosts</h3>
+  <p>
+    Enter a hostname (<code>devops.mycompany.com</code>) or a specific path (<code>devops.mycompany.com/my-project</code>). The extension will activate on that page and any sub-pages.
+  </p>
+  
+  <input type="text" id="host-input" placeholder="e.g., devops.mycompany.com" size="40">
+  <button id="add-host-btn">Add Host</button>
+  <ul id="hosts-list">
+  </ul>
+
+  <script src="options.js"></script>
+
+</body>
+</html>

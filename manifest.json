@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/chrome-manifest",
   "manifest_version": 3,
   "name": "Syntax Highlighter for Azure DevOps",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Enhances code readability by adding syntax highlighting to code views and diffs within Azure DevOps, including pull requests.",
   "icons": {
     "16": "assets/icons/icon16.png",
@@ -10,10 +10,24 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
   "host_permissions": [
     "*://*.dev.azure.com/*",
     "*://*.visualstudio.com/*"
   ],
+  "optional_host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "content_scripts": [
     {
       "matches": [

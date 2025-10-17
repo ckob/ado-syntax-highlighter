@@ -8,6 +8,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 - **Language Detection:** Detects the programming language based on file extensions.
 - **Theme Support:** Seamlessly integrates with both light and dark themes in Azure DevOps.
 - **Powered by Prism:** Utilizes the popular [Prism](https://prismjs.com/) library for fast and accurate highlighting.
+- **Custom Domains Support**: Works with self-hosted (on-premise) and other custom Azure DevOps domains via a simple configuration page.
 
 ## Screenshots
 
