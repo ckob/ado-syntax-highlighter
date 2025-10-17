@@ -1,6 +1,6 @@
-# Azure DevOps PR Syntax Highlighter
+# Syntax Highlighter for Azure DevOps
 
-A browser extension that brings syntax highlighting to file diffs in Azure DevOps pull requests, making code reviews easier and more efficient.
+A browser extension that brings syntax highlighting to file diffs in Azure DevOps, including Pull Requests. Making code reviews easier and more efficient.
 
 ## Features
 
@@ -27,7 +27,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 ### From the Chrome Web Store (Recommended)
 
-[Available in the Chrome Web Store](https://chromewebstore.google.com/detail/azure-devops-pr-syntax-hi/lclohacjbfchomeeopaffkedfnbjicdn)
+[Available in the Chrome Web Store](https://chromewebstore.google.com/detail/syntax-highlighter-for-az/lclohacjbfchomeeopaffkedfnbjicdn)
 
 ### Manual Installation
 
