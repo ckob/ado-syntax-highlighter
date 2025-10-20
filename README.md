@@ -25,16 +25,29 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 ## Installation
 
-### From the Chrome Web Store (Recommended)
+### Chrome
+
+#### From the Chrome Web Store (Recommended)
 
 [Available in the Chrome Web Store](https://chromewebstore.google.com/detail/syntax-highlighter-for-az/lclohacjbfchomeeopaffkedfnbjicdn)
 
-### Manual Installation
+#### Manual Installation
 
 1.  Download or clone this repository.
 2.  Open Google Chrome and navigate to `chrome://extensions`.
 3.  Enable "Developer mode" in the top right corner.
 4.  Click "Load unpacked" and select the directory where you downloaded the repository.
+
+### Firefox
+
+#### Manual Installation
+
+1.  Download or clone this repository.
+2.  Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
+3.  Click "Load Temporary Add-on".
+4.  Navigate to the extension directory and select the `manifest.json` file.
+
+**Note:** The same `manifest.json` works for both Chrome and Firefox. For permanent installation in Firefox, the extension needs to be signed by Mozilla or installed as a temporary add-on (which resets on browser restart).
 
 ## Usage
 
