@@ -17,7 +17,7 @@ function createCustomHostListItem(host) {
 }
 
 function loadDefaultHosts() {
-  const manifest = chrome.runtime.getManifest();
+  const manifest = browser.runtime.getManifest();
   const defaultHosts = manifest.host_permissions || [];
 
   defaultHostsList.innerHTML = '';
@@ -29,8 +29,8 @@ function loadDefaultHosts() {
 }
 
 async function loadCustomHosts() {
-  const { customHosts = [] } = await chrome.storage.sync.get('customHosts');
-  hostsList.innerHTML = ''; // Clear the list before populating
+  const { customHosts = [] } = await browser.storage.sync.get('customHosts');
+  hostsList.innerHTML = '';
   customHosts.forEach(createCustomHostListItem);
 }
 
@@ -43,15 +43,15 @@ async function addHost() {
   const permissionPattern = `*://${hostValue}/*`;
 
   try {
-    const granted = await chrome.permissions.request({
+    const granted = await browser.permissions.request({
       origins: [permissionPattern]
     });
 
     if (granted) {
-      const { customHosts = [] } = await chrome.storage.sync.get('customHosts');
+      const { customHosts = [] } = await browser.storage.sync.get('customHosts');
       if (!customHosts.includes(permissionPattern)) {
         const updatedHosts = [...customHosts, permissionPattern];
-        await chrome.storage.sync.set({ customHosts: updatedHosts });
+        await browser.storage.sync.set({ customHosts: updatedHosts });
         createCustomHostListItem(permissionPattern);
       }
       hostInput.value = '';
@@ -60,21 +60,20 @@ async function addHost() {
     }
   } catch (err) {
     console.error(`Error requesting permission: ${err}`);
-
     alert(`Could not request permission for "${hostValue}". Please ensure it's a valid hostname.`);
   }
 }
 
 async function removeHost(hostToRemove) {
   try {
-    const removed = await chrome.permissions.remove({
+    const removed = await browser.permissions.remove({
       origins: [hostToRemove]
     });
 
     if (removed) {
-      const { customHosts = [] } = await chrome.storage.sync.get('customHosts');
+      const { customHosts = [] } = await browser.storage.sync.get('customHosts');
       const updatedHosts = customHosts.filter(h => h !== hostToRemove);
-      await chrome.storage.sync.set({ customHosts: updatedHosts });
+      await browser.storage.sync.set({ customHosts: updatedHosts });
       loadCustomHosts();
     } else {
       console.warn('Could not remove permission.');

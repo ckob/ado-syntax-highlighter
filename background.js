@@ -1,22 +1,24 @@
+importScripts('browser-polyfill.min.js');
+
 function injectContent(tabId) {
   console.log(`ADO Syntax Highlighter: Injecting into custom host on tab ${tabId}`);
-  chrome.scripting.insertCSS({
+  browser.scripting.insertCSS({
     target: { tabId: tabId },
     files: ["prism/prism.css", "custom_styles.css"],
   }).catch(err => console.warn(`CSS injection warning: ${err.message}`));
 
-  chrome.scripting.executeScript({
+  browser.scripting.executeScript({
     target: { tabId: tabId },
     files: ["prism/prism.js", "content_script.js"],
   });
 }
 
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status !== 'complete' || !tab.url || !tab.url.startsWith('http')) {
     return;
   }
 
-  const manifest = chrome.runtime.getManifest();
+  const manifest = browser.runtime.getManifest();
   const defaultHosts = manifest.host_permissions || [];
   const isDefaultHost = defaultHosts.some(pattern => {
     const regex = new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
@@ -27,7 +29,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     return;
   }
 
-  const { customHosts = [] } = await chrome.storage.sync.get('customHosts');
+  const { customHosts = [] } = await browser.storage.sync.get('customHosts');
   if (customHosts.length === 0) {
     return;
   }
