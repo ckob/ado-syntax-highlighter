@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/chrome-manifest",
   "manifest_version": 3,
   "name": "Syntax Highlighter for Azure DevOps",
   "version": "0.6.0",
@@ -22,7 +21,8 @@
     "*://*/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": ["browser-polyfill.min.js", "background.js"]
   },
   "options_ui": {
     "page": "options.html",
@@ -38,5 +38,11 @@
       "css": ["prism/prism.css", "custom_styles.css"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ado-syntax-highlighter@ckob.github.io",
+      "strict_min_version": "109.0"
+    }
+  }
 }
