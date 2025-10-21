@@ -1,4 +1,8 @@
-importScripts('browser-polyfill.min.js');
+// Load browser polyfill for Chrome service worker
+// Firefox will load this via the scripts array in manifest.json
+if (typeof importScripts !== 'undefined') {
+  importScripts('browser-polyfill.min.js');
+}
 
 function injectContent(tabId) {
   console.log(`ADO Syntax Highlighter: Injecting into custom host on tab ${tabId}`);
