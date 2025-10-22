@@ -8,6 +8,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 - **Language Detection:** Detects the programming language based on file extensions.
 - **Theme Support:** Seamlessly integrates with both light and dark themes in Azure DevOps.
 - **Powered by Prism:** Utilizes the popular [Prism](https://prismjs.com/) library for fast and accurate highlighting.
+- **Cross-Browser Support:** Available for both Chrome and Firefox.
 - **Custom Domains Support**: Works with self-hosted (on-premise) and other custom Azure DevOps domains via a simple configuration page.
 
 ## Screenshots
@@ -32,23 +33,27 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 [Available in the Chrome Web Store](https://chromewebstore.google.com/detail/syntax-highlighter-for-az/lclohacjbfchomeeopaffkedfnbjicdn)
 
-#### Manual Installation
+#### From GitHub Releases (Manual)
 
-1.  Download or clone this repository.
-2.  Open Google Chrome and navigate to `chrome://extensions`.
-3.  Enable "Developer mode" in the top right corner.
-4.  Click "Load unpacked" and select the directory where you downloaded the repository.
+1.  Go to the [**latest release**](https://github.com/ckob/ado-pr-highlighter/releases/latest).
+2.  Download the `chrome-extension.zip` file.
+3.  Unzip the file (you will get a folder named `chrome-extension`).
+4.  Open Google Chrome and navigate to `chrome://extensions`.
+5.  Enable "Developer mode" in the top right corner.
+6.  Click "Load unpacked" and select the unzipped `chrome-extension` folder.
 
 ### Firefox
 
 #### Manual Installation
 
-1.  Download or clone this repository.
-2.  Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
-3.  Click "Load Temporary Add-on".
-4.  Navigate to the extension directory and select the `manifest.json` file.
+1.  Go to the [**latest release**](https://github.com/ckob/ado-pr-highlighter/releases/latest).
+2.  Download the `firefox-extension.zip` file.
+3.  Unzip the file (you will get a folder named `firefox-extension`)
+4.  Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
+5.  Click "Load Temporary Add-on".
+6.  Navigate to the extension directory and select the `manifest.json` file.
 
-**Note:** The same `manifest.json` works for both Chrome and Firefox. For permanent installation in Firefox, the extension needs to be signed by Mozilla or installed as a temporary add-on (which resets on browser restart).
+**Note:** This is a temporary add-on and will need to be reloaded every time you restart Firefox.
 
 ## Usage
 
@@ -57,6 +62,12 @@ Once installed, the extension will automatically apply syntax highlighting to fi
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+### Building from Source
+
+1.  Clone this repository.
+2.  Run `make package`. This will build and zip both extensions into the `/dist` directory.
+3.  You can then load the unpacked build directories (`dist/chrome_build` and `dist/firefox_build`) into your browser for testing.
 
 ## License
 
