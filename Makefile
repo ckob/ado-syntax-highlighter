@@ -17,7 +17,6 @@ COMMON_FILES := \
 
 COMMON_DIRS := \
 	assets \
-	options \
 	prism
 
 # --- Primary Targets ---
