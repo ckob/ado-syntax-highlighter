@@ -1,0 +1,25 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Triggers on tags like v1.0.0
+
+jobs:
+  build-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Build and package extensions
+        run: make package
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/chrome-extension.zip
+            dist/firefox-extension.zip
