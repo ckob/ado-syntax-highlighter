@@ -21,7 +21,6 @@
     "*://*/*"
   ],
   "background": {
-    "service_worker": "background.js",
     "scripts": ["browser-polyfill.min.js", "background.js"]
   },
   "options_ui": {
