@@ -3,6 +3,26 @@ const addHostBtn = document.getElementById('add-host-btn');
 const hostsList = document.getElementById('hosts-list');
 const defaultHostsList = document.getElementById('default-hosts-list');
 
+const patternInput = document.getElementById('pattern-input');
+const languageSelect = document.getElementById('language-select');
+const addPatternBtn = document.getElementById('add-pattern-btn');
+const patternsList = document.getElementById('patterns-list');
+
+function populateLanguageDropdown() {
+  // Get all available Prism languages (filter out helper methods)
+  const languages = Object.keys(Prism.languages)
+    .filter(lang => typeof Prism.languages[lang] !== 'function')
+    .sort();
+
+  // Populate the dropdown
+  languages.forEach(lang => {
+    const option = document.createElement('option');
+    option.value = lang;
+    option.textContent = lang;
+    languageSelect.appendChild(option);
+  });
+}
+
 function createCustomHostListItem(host) {
   const listItem = document.createElement('li');
   listItem.textContent = host;
@@ -21,17 +41,19 @@ function loadDefaultHosts() {
   const defaultHosts = manifest.host_permissions || [];
 
   defaultHostsList.innerHTML = '';
-  defaultHosts.forEach(host => {
+  for (const host of defaultHosts) {
     const listItem = document.createElement('li');
     listItem.textContent = host;
     defaultHostsList.appendChild(listItem);
-  });
+  }
 }
 
 async function loadCustomHosts() {
   const { customHosts = [] } = await browser.storage.sync.get('customHosts');
   hostsList.innerHTML = '';
-  customHosts.forEach(createCustomHostListItem);
+  for (const host of customHosts) {
+      createCustomHostListItem(host);
+  }
 }
 
 async function addHost() {
@@ -91,7 +113,63 @@ hostInput.addEventListener('keypress', (e) => {
   }
 });
 
+function createCustomPatternListItem(pattern, language) {
+  const listItem = document.createElement('li');
+  listItem.innerHTML = `<code>${pattern}</code> → <code>${language}</code>`;
+
+  const removeBtn = document.createElement('button');
+  removeBtn.textContent = 'Remove';
+  removeBtn.style.marginLeft = '10px';
+  removeBtn.addEventListener('click', () => removePattern(pattern));
+
+  listItem.appendChild(removeBtn);
+  patternsList.appendChild(listItem);
+}
+
+async function loadCustomPatterns() {
+  const { customFilePatterns = {} } = await browser.storage.sync.get('customFilePatterns');
+  patternsList.innerHTML = '';
+  for (const [pattern, language] of Object.entries(customFilePatterns)) {
+    createCustomPatternListItem(pattern, language);
+  }
+}
+
+async function addPattern() {
+  const pattern = patternInput.value.trim();
+  const language = languageSelect.value;
+
+  if (!pattern || !language) {
+    alert('Please enter a file pattern and select a language.');
+    return;
+  }
+
+  const { customFilePatterns = {} } = await browser.storage.sync.get('customFilePatterns');
+  customFilePatterns[pattern] = language;
+  await browser.storage.sync.set({ customFilePatterns });
+
+  createCustomPatternListItem(pattern, language);
+  patternInput.value = '';
+  languageSelect.value = '';
+}
+
+async function removePattern(patternToRemove) {
+  const { customFilePatterns = {} } = await browser.storage.sync.get('customFilePatterns');
+  delete customFilePatterns[patternToRemove];
+  await browser.storage.sync.set({ customFilePatterns });
+  loadCustomPatterns();
+}
+
+addPatternBtn.addEventListener('click', addPattern);
+
+patternInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    addPattern();
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
+  populateLanguageDropdown();
   loadDefaultHosts();
   loadCustomHosts();
+  loadCustomPatterns();
 });

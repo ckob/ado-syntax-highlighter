@@ -13,7 +13,7 @@ function injectContent(tabId) {
 
   browser.scripting.executeScript({
     target: { tabId: tabId },
-    files: ["prism/prism.js", "content_script.js"],
+    files: ["browser-polyfill.min.js", "prism/prism.js", "content_script.js"],
   });
 }
 
