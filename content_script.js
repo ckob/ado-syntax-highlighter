@@ -1,5 +1,5 @@
 // Helper to map file extensions to Prism language aliases https://prismjs.com/#supported-languages
-const filePatternToLanguage = {
+const defaultFilePatternToLanguage = {
   '*.csproj': 'markup',
   'directory.build.props': 'markup',
   'directory.build.targets': 'markup',
@@ -9,14 +9,39 @@ const filePatternToLanguage = {
   '*.(cls|trigger)': 'apex'
 };
 
+// Custom patterns loaded from storage (takes priority)
+let customFilePatterns = {};
+
+// Load custom patterns from storage
+async function loadCustomFilePatterns() {
+  try {
+    const result = await browser.storage.sync.get('customFilePatterns');
+    customFilePatterns = result.customFilePatterns || {};
+  } catch (error) {
+    console.error('ADO Syntax Highlighter: Error loading custom file patterns:', error);
+    customFilePatterns = {};
+  }
+}
+
 function getLanguageFromFileName(fileName) {
   if (!fileName) return null;
   const lowerFileName = fileName.toLowerCase();
 
-  for (const [pattern, value] of Object.entries(filePatternToLanguage)) {
+  for (const [pattern, value] of Object.entries(customFilePatterns)) {
     const regexPattern = pattern
-      .replace(/\./g, '\\.')
-      .replace(/\*/g, '.*');
+      .replaceAll('.', String.raw`\.`)
+      .replaceAll('*', '.*');
+    const regex = new RegExp(`^${regexPattern}$`);
+
+    if (regex.test(lowerFileName)) {
+      return value;
+    }
+  }
+
+  for (const [pattern, value] of Object.entries(defaultFilePatternToLanguage)) {
+    const regexPattern = pattern
+      .replaceAll('.', String.raw`\.`)
+      .replaceAll('*', '.*');
     const regex = new RegExp(`^${regexPattern}$`);
 
     if (regex.test(lowerFileName)) {
@@ -120,8 +145,10 @@ function applySyntaxHighlighting() {
 
 console.debug("ADO Syntax Highlighter: Content script loaded.");
 
-// Initial run
-applySyntaxHighlighting();
+// Load custom patterns and then apply highlighting
+loadCustomFilePatterns().then(() => {
+  applySyntaxHighlighting();
+});
 
 function debounce(func, wait) {
   let timeout;
@@ -142,18 +169,20 @@ window.addEventListener('popstate', debouncedApplyHighlighting);
 // Observe DOM changes for dynamically loaded content
 new MutationObserver((mutationsList) => {
   for (const mutation of mutationsList) {
-    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-      for (const node of mutation.addedNodes) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          if (
-            node.matches?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header') ||
-            node.querySelector?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header')
-          ) {
-            debouncedApplyHighlighting();
-            return;
-          }
-        }
+      if (!(mutation.type === 'childList' && mutation.addedNodes.length > 0)) {
+          continue;
       }
-    }
+      for (const node of mutation.addedNodes) {
+          if (node.nodeType !== Node.ELEMENT_NODE) {
+              continue;
+          }
+          if (
+              node.matches?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header') ||
+              node.querySelector?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header')
+          ) {
+              debouncedApplyHighlighting();
+              return;
+          }
+      }
   }
 }).observe(document.body, { childList: true, subtree: true });

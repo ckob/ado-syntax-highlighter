@@ -10,6 +10,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 - **Powered by Prism:** Utilizes the popular [Prism](https://prismjs.com/) library for fast and accurate highlighting.
 - **Cross-Browser Support:** Available for both Chrome and Firefox.
 - **Custom Domains Support**: Works with self-hosted (on-premise) and other custom Azure DevOps domains via a simple configuration page.
+- **Custom File Type Mapping:** Map specific file patterns (e.g., `*.myext`, `myfile.ext`) to a syntax highlighting language of your choice.
 
 ## Screenshots
 
@@ -31,7 +32,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 #### From the Chrome Web Store (Recommended)
 
-[Available in the Chrome Web Store](https://chromewebstore.google.com/detail/syntax-highlighter-for-az/lclohacjbfchomeeopaffkedfnbjicdn)
+[Available in the Chrome Web Store](https://chromewebstore.google.com/detail/lclohacjbfchomeeopaffkedfnbjicdn?utm_source=github)
 
 #### From GitHub Releases (Manual)
 
@@ -58,6 +59,32 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 ## Usage
 
 Once installed, the extension will automatically apply syntax highlighting to files in any Azure DevOps pull request you view. There are no additional steps required.
+
+## Configuration
+
+![Options Page](assets/screenshots/options-page.png)
+
+The extension's options page allows you to customize its behavior. You can access it through your browser's extension management page, usually by right-clicking the extension icon and selecting "Options".
+
+### Custom Host Permissions
+
+If you use a self-hosted or custom domain for Azure DevOps (e.g., `devops.mycompany.com`), you'll need to grant the extension permission to access it.
+
+1.  Open the extension options.
+2.  In the "Manage Custom Hosts" section, enter the hostname (e.g., `devops.mycompany.com`).
+3.  Click "Add Host". Your browser will ask you to confirm the permission.
+
+### Custom File Type Mappings
+
+You can override the default language detection by mapping specific file patterns to a language. This is useful for files with non-standard extensions or for file types that aren't automatically recognized.
+
+1.  Open the extension options.
+2.  Go to the "Custom File Type Mappings" section.
+3.  Enter a file pattern (e.g., `*.myext`, `Jenkinsfile`, `*.config.json`).
+4.  Select the desired language from the dropdown.
+5.  Click "Add Pattern".
+
+Custom patterns take priority over the default language detection.
 
 ## Contributing
 

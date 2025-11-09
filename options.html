@@ -1,7 +1,7 @@
-</html>
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Syntax Highlighter for Azure DevOps Options</title>
 </head>
 <body>
@@ -25,7 +25,33 @@
   <ul id="hosts-list">
     </ul>
 
+  <hr>
+
+  <h2>Custom File Type Mappings</h2>
+  <p>
+    Add custom file patterns to map specific files to syntax highlighting languages.
+    Custom patterns take priority over default patterns.
+  </p>
+  <p>
+    <strong>Pattern examples:</strong> <code>*.myext</code>, <code>dockerfile.*</code>, <code>*.config.json</code>, <code>makefile</code>
+    <br>
+    <strong>Language:</strong> Use <a href="https://prismjs.com/#supported-languages" target="_blank">Prism.js language identifiers</a> (e.g., <code>javascript</code>, <code>python</code>, <code>markup</code>, <code>yaml</code>)
+  </p>
+
+  <div style="margin-bottom: 10px;">
+    <input type="text" id="pattern-input" placeholder="e.g., *.myext" size="25">
+    <select id="language-select" style="width: 200px;">
+      <option value="">Select a language...</option>
+    </select>
+    <button id="add-pattern-btn">Add Pattern</button>
+  </div>
+
+  <h3>Your Custom Patterns</h3>
+  <ul id="patterns-list">
+    </ul>
+
   <script src="browser-polyfill.min.js"></script>
+  <script src="prism/prism.js"></script>
   <script src="options.js"></script>
 
 </body>
