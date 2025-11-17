@@ -36,7 +36,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 #### From GitHub Releases (Manual)
 
-1.  Go to the [**latest release**](https://github.com/ckob/ado-pr-highlighter/releases/latest).
+1.  Go to the [**latest release**](https://github.com/ckob/ado-syntax-highlighter/releases/latest).
 2.  Download the `chrome-extension.zip` file.
 3.  Unzip the file (you will get a folder named `chrome-extension`).
 4.  Open Google Chrome and navigate to `chrome://extensions`.
@@ -47,7 +47,7 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 #### Manual Installation
 
-1.  Go to the [**latest release**](https://github.com/ckob/ado-pr-highlighter/releases/latest).
+1.  Go to the [**latest release**](https://github.com/ckob/ado-syntax-highlighter/releases/latest).
 2.  Download the `firefox-extension.zip` file.
 3.  Unzip the file (you will get a folder named `firefox-extension`)
 4.  Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
