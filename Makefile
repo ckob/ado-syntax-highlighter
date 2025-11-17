@@ -48,11 +48,11 @@ firefox:
 package-chrome: chrome
 	@echo "Zipping Chrome..."
 	@rm -f $(CHROME_ZIP)
-	@cd $(CHROME_BUILD) && zip -r ../$(notdir $(CHROME_ZIP)) .
+	@cd $(CHROME_BUILD) && zip -r ../$(notdir $(CHROME_ZIP)) . -x "*.DS_Store"
 
 package-firefox: firefox
 	@echo "Zipping Firefox..."
 	@rm -f $(FIREFOX_ZIP)
-	@cd $(FIREFOX_BUILD) && zip -r ../$(notdir $(FIREFOX_ZIP)) .
+	@cd $(FIREFOX_BUILD) && zip -r ../$(notdir $(FIREFOX_ZIP)) . -x "*.DS_Store"
 
 .PHONY: all package clean chrome firefox package-chrome package-firefox
