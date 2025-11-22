@@ -74,8 +74,9 @@ code {
   font-size: 0.9rem;
 }
 
-input[type="text"] {
-  width: 100%;
+input[type="text"],
+select {
+  width: -webkit-fill-available;
   padding: 0.6rem;
   border: 1px solid var(--border);
   border-radius: 4px;
