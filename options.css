@@ -21,6 +21,7 @@ body {
   color: var(--text);
   margin: 0;
   padding: 2rem;
+  display: flex;
   justify-content: center;
 }
 
@@ -30,7 +31,7 @@ body {
   border-radius: 6px;
   padding: 2rem;
   width: 600px;
-  max-width: 50%;
+  max-width: 100%;
 }
 
 h1 {
