@@ -13,6 +13,7 @@ COMMON_FILES := \
 	custom_styles.css \
 	options.html \
 	options.js \
+	options.css \
 	LICENSE
 
 COMMON_DIRS := \
