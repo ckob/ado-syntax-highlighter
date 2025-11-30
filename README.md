@@ -2,6 +2,9 @@
 
 A browser extension that brings syntax highlighting to file diffs in Azure DevOps, including Pull Requests. Making code reviews easier and more efficient.
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/lclohacjbfchomeeopaffkedfnbjicdn?style=for-the-badge&logo=google-chrome&logoColor=white&label=Chrome%20Web%20Store)](https://chromewebstore.google.com/detail/lclohacjbfchomeeopaffkedfnbjicdn)
+[![Firefox Add-on](https://img.shields.io/amo/v/syntax-highlighter-for-ado?style=for-the-badge&logo=firefox&logoColor=white&label=Firefox%20Add-ons)](https://addons.mozilla.org/firefox/addon/syntax-highlighter-for-ado/)
+
 ## Features
 
 - **Syntax Highlighting:** Automatically applies syntax highlighting to code in pull request diffs.
@@ -45,7 +48,11 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 ### Firefox
 
-#### Manual Installation
+#### From the Firefox Add-on Store (Recommended)
+
+[Available in the Firefox Add-on Store](https://addons.mozilla.org/firefox/addon/syntax-highlighter-for-ado/)
+
+#### From GitHub Releases (Manual)
 
 1.  Go to the [**latest release**](https://github.com/ckob/ado-syntax-highlighter/releases/latest).
 2.  Download the `firefox-extension.zip` file.

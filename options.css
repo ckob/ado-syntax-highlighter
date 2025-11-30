@@ -4,6 +4,7 @@
   --card-bg: #ffffff;
   --border: #d0d0d0;
   --text: #222;
+  --link: #0078d4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -12,6 +13,7 @@
     --card-bg: #252526;
     --border: #3a3a3a;
     --text: #eaeaea;
+    --link: #58a6ff;
   }
 }
 
@@ -137,4 +139,14 @@ ul li button {
 ul li button:hover {
   background: var(--primary);
   color: #ffffff;
+}
+
+a,
+a:visited {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
