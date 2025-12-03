@@ -7,6 +7,17 @@ const patternInput = document.getElementById('pattern-input');
 const languageSelect = document.getElementById('language-select');
 const addPatternBtn = document.getElementById('add-pattern-btn');
 const patternsList = document.getElementById('patterns-list');
+const themeSelect = document.getElementById('theme-select');
+
+async function loadThemePreference() {
+  const { themePreference = 'auto' } = await browser.storage.sync.get('themePreference');
+  themeSelect.value = themePreference;
+}
+
+themeSelect.addEventListener('change', async () => {
+  const themePreference = themeSelect.value;
+  await browser.storage.sync.set({ themePreference });
+});
 
 function populateLanguageDropdown() {
   // Get all available Prism languages (filter out helper methods)
@@ -52,7 +63,7 @@ async function loadCustomHosts() {
   const { customHosts = [] } = await browser.storage.sync.get('customHosts');
   hostsList.innerHTML = '';
   for (const host of customHosts) {
-      createCustomHostListItem(host);
+    createCustomHostListItem(host);
   }
 }
 
@@ -172,4 +183,5 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDefaultHosts();
   loadCustomHosts();
   loadCustomPatterns();
+  loadThemePreference();
 });

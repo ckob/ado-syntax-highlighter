@@ -16,8 +16,7 @@ COMMON_FILES := \
 	LICENSE
 
 COMMON_DIRS := \
-	assets \
-	prism
+	assets
 
 # --- Primary Targets ---
 all: chrome firefox
@@ -34,6 +33,9 @@ chrome:
 	@mkdir -p $(CHROME_BUILD)
 	@cp $(COMMON_FILES) $(CHROME_BUILD)/
 	@cp -r $(COMMON_DIRS) $(CHROME_BUILD)/
+	@mkdir -p $(CHROME_BUILD)/prism
+	@cp prism/prism.js $(CHROME_BUILD)/prism/
+	@cat prism/themes/*.css > $(CHROME_BUILD)/prism/prism.css
 	@cp manifest.chrome.json $(CHROME_BUILD)/manifest.json
 	@echo "Minifying assets for Chrome..."
 	@npx terser browser-polyfill.js -o $(CHROME_BUILD)/browser-polyfill.min.js --comments false
@@ -46,6 +48,9 @@ firefox:
 	@mkdir -p $(FIREFOX_BUILD)
 	@cp $(COMMON_FILES) $(FIREFOX_BUILD)/
 	@cp -r $(COMMON_DIRS) $(FIREFOX_BUILD)/
+	@mkdir -p $(FIREFOX_BUILD)/prism
+	@cp prism/prism.js $(FIREFOX_BUILD)/prism/
+	@cat prism/themes/*.css > $(FIREFOX_BUILD)/prism/prism.css
 	@cp manifest.firefox.json $(FIREFOX_BUILD)/manifest.json
 	@echo "Minifying assets for Firefox..."
 	@npx terser browser-polyfill.js -o $(FIREFOX_BUILD)/browser-polyfill.min.js --comments false
