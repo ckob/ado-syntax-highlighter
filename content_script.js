@@ -11,15 +11,18 @@ const defaultFilePatternToLanguage = {
 
 // Custom patterns loaded from storage (takes priority)
 let customFilePatterns = {};
+let themePreference = 'auto';
 
-// Load custom patterns from storage
-async function loadCustomFilePatterns() {
+// Load custom patterns and theme preference from storage
+async function loadSettings() {
   try {
-    const result = await browser.storage.sync.get('customFilePatterns');
+    const result = await browser.storage.sync.get(['customFilePatterns', 'themePreference']);
     customFilePatterns = result.customFilePatterns || {};
+    themePreference = result.themePreference || 'auto';
   } catch (error) {
-    console.error('ADO Syntax Highlighter: Error loading custom file patterns:', error);
+    console.error('ADO Syntax Highlighter: Error loading settings:', error);
     customFilePatterns = {};
+    themePreference = 'auto';
   }
 }
 
@@ -55,6 +58,9 @@ function getLanguageFromFileName(fileName) {
 
 let theme = "";
 function getTheme(element) {
+  if (themePreference !== 'auto') {
+    return themePreference;
+  }
   if (theme) return theme;
   const color = window.getComputedStyle(element).color;
 
@@ -105,7 +111,7 @@ function processFileDiff(fileDiffElement) {
 
       const code = document.createElement('code'); // Temporary element
       code.className = `language-${language}`;
-      code.innerHTML =  codeToHighlight;
+      code.innerHTML = codeToHighlight;
       Prism.highlightElement(code, false, () => {
         const contentDiv = document.createElement('div');
         contentDiv.innerHTML = code.innerHTML;
@@ -146,7 +152,7 @@ function applySyntaxHighlighting() {
 console.debug("ADO Syntax Highlighter: Content script loaded.");
 
 // Load custom patterns and then apply highlighting
-loadCustomFilePatterns().then(() => {
+loadSettings().then(() => {
   applySyntaxHighlighting();
 });
 
@@ -169,20 +175,20 @@ window.addEventListener('popstate', debouncedApplyHighlighting);
 // Observe DOM changes for dynamically loaded content
 new MutationObserver((mutationsList) => {
   for (const mutation of mutationsList) {
-      if (!(mutation.type === 'childList' && mutation.addedNodes.length > 0)) {
-          continue;
+    if (!(mutation.type === 'childList' && mutation.addedNodes.length > 0)) {
+      continue;
+    }
+    for (const node of mutation.addedNodes) {
+      if (node.nodeType !== Node.ELEMENT_NODE) {
+        continue;
       }
-      for (const node of mutation.addedNodes) {
-          if (node.nodeType !== Node.ELEMENT_NODE) {
-              continue;
-          }
-          if (
-              node.matches?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header') ||
-              node.querySelector?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header')
-          ) {
-              debouncedApplyHighlighting();
-              return;
-          }
+      if (
+        node.matches?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header') ||
+        node.querySelector?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header')
+      ) {
+        debouncedApplyHighlighting();
+        return;
       }
+    }
   }
 }).observe(document.body, { childList: true, subtree: true });
