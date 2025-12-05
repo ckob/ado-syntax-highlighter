@@ -16,6 +16,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v5
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build and package extensions
         run: make package
 

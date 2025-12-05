@@ -8,7 +8,6 @@ FIREFOX_ZIP := $(DIST_DIR)/firefox-extension.zip
 # --- Source Files ---
 COMMON_FILES := \
 	background.js \
-	browser-polyfill.min.js \
 	content_script.js \
 	custom_styles.css \
 	options.html \
@@ -36,6 +35,10 @@ chrome:
 	@cp $(COMMON_FILES) $(CHROME_BUILD)/
 	@cp -r $(COMMON_DIRS) $(CHROME_BUILD)/
 	@cp manifest.chrome.json $(CHROME_BUILD)/manifest.json
+	@echo "Minifying assets for Chrome..."
+	@npx terser browser-polyfill.js -o $(CHROME_BUILD)/browser-polyfill.min.js --comments false
+	@npx terser prism/prism.js -o $(CHROME_BUILD)/prism/prism.min.js --comments false
+	@rm $(CHROME_BUILD)/prism/prism.js
 
 firefox:
 	@echo "Building Firefox..."
@@ -44,6 +47,10 @@ firefox:
 	@cp $(COMMON_FILES) $(FIREFOX_BUILD)/
 	@cp -r $(COMMON_DIRS) $(FIREFOX_BUILD)/
 	@cp manifest.firefox.json $(FIREFOX_BUILD)/manifest.json
+	@echo "Minifying assets for Firefox..."
+	@npx terser browser-polyfill.js -o $(FIREFOX_BUILD)/browser-polyfill.min.js --comments false
+	@npx terser prism/prism.js -o $(FIREFOX_BUILD)/prism/prism.min.js --comments false
+	@rm $(FIREFOX_BUILD)/prism/prism.js
 
 # --- Package (Zip) Targets ---
 package-chrome: chrome

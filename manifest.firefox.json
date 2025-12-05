@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Syntax Highlighter for Azure DevOps",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Enhances code readability by adding syntax highlighting to code views and diffs within Azure DevOps, including pull requests.",
   "icons": {
     "16": "assets/icons/icon16.png",
@@ -21,7 +21,10 @@
     "*://*/*"
   ],
   "background": {
-    "scripts": ["browser-polyfill.min.js", "background.js"]
+    "scripts": [
+      "browser-polyfill.min.js",
+      "background.js"
+    ]
   },
   "options_ui": {
     "page": "options.html",
@@ -33,8 +36,15 @@
         "*://*.dev.azure.com/*",
         "*://*.visualstudio.com/*"
       ],
-      "js": ["browser-polyfill.min.js", "prism/prism.js", "content_script.js"],
-      "css": ["prism/prism.css", "custom_styles.css"],
+      "js": [
+        "browser-polyfill.min.js",
+        "prism/prism.min.js",
+        "content_script.js"
+      ],
+      "css": [
+        "prism/prism.css",
+        "custom_styles.css"
+      ],
       "run_at": "document_idle"
     }
   ],
@@ -43,7 +53,9 @@
       "id": "ado-syntax-highlighter@ckob.github.io",
       "strict_min_version": "128.0",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     }
   }
