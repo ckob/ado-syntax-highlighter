@@ -26,36 +26,39 @@ clean:
 	@echo "Cleaning..."
 	@rm -rf $(DIST_DIR)
 
+# --- Build Macros ---
+# Arguments:
+# 1: Build Directory
+# 2: Manifest File
+define build-extension
+	@echo "Building for $(1)..."
+	@rm -rf $(1)
+	@mkdir -p $(1)
+	@cp $(COMMON_FILES) $(1)/
+	@cp -r $(COMMON_DIRS) $(1)/
+	@mkdir -p $(1)/prism
+	@cp prism/prism.js $(1)/prism/
+	@echo "Generating scoped prism.css for $(1)..."
+	@rm -f $(1)/prism/prism.css
+	@for f in prism/themes/*.css; do \
+		name=$$(basename $$f .css); \
+		echo ".$${name} {" >> $(1)/prism/prism.css; \
+		cat $$f >> $(1)/prism/prism.css; \
+		echo "}" >> $(1)/prism/prism.css; \
+	done
+	@cp $(2) $(1)/manifest.json
+	@echo "Minifying assets for $(1)..."
+	@npx terser browser-polyfill.js -o $(1)/browser-polyfill.min.js --comments false
+	@npx terser prism/prism.js -o $(1)/prism/prism.min.js --comments false
+	@rm $(1)/prism/prism.js
+endef
+
 # --- Build Targets ---
 chrome:
-	@echo "Building Chrome..."
-	@rm -rf $(CHROME_BUILD)
-	@mkdir -p $(CHROME_BUILD)
-	@cp $(COMMON_FILES) $(CHROME_BUILD)/
-	@cp -r $(COMMON_DIRS) $(CHROME_BUILD)/
-	@mkdir -p $(CHROME_BUILD)/prism
-	@cp prism/prism.js $(CHROME_BUILD)/prism/
-	@cat prism/themes/*.css > $(CHROME_BUILD)/prism/prism.css
-	@cp manifest.chrome.json $(CHROME_BUILD)/manifest.json
-	@echo "Minifying assets for Chrome..."
-	@npx terser browser-polyfill.js -o $(CHROME_BUILD)/browser-polyfill.min.js --comments false
-	@npx terser prism/prism.js -o $(CHROME_BUILD)/prism/prism.min.js --comments false
-	@rm $(CHROME_BUILD)/prism/prism.js
+	$(call build-extension,$(CHROME_BUILD),manifest.chrome.json)
 
 firefox:
-	@echo "Building Firefox..."
-	@rm -rf $(FIREFOX_BUILD)
-	@mkdir -p $(FIREFOX_BUILD)
-	@cp $(COMMON_FILES) $(FIREFOX_BUILD)/
-	@cp -r $(COMMON_DIRS) $(FIREFOX_BUILD)/
-	@mkdir -p $(FIREFOX_BUILD)/prism
-	@cp prism/prism.js $(FIREFOX_BUILD)/prism/
-	@cat prism/themes/*.css > $(FIREFOX_BUILD)/prism/prism.css
-	@cp manifest.firefox.json $(FIREFOX_BUILD)/manifest.json
-	@echo "Minifying assets for Firefox..."
-	@npx terser browser-polyfill.js -o $(FIREFOX_BUILD)/browser-polyfill.min.js --comments false
-	@npx terser prism/prism.js -o $(FIREFOX_BUILD)/prism/prism.min.js --comments false
-	@rm $(FIREFOX_BUILD)/prism/prism.js
+	$(call build-extension,$(FIREFOX_BUILD),manifest.firefox.json)
 
 # --- Package (Zip) Targets ---
 package-chrome: chrome

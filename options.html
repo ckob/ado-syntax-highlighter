@@ -15,33 +15,65 @@
     <h2>Theme Preference</h2>
     <p>
       Choose the color theme for the syntax highlighter.
+      <br>
+      <small>Themes from <a href="https://github.com/PrismJS/prism-themes" target="_blank">prism-themes</a> and <a
+          href="https://prismjs.com/download.html#themes=prism" target="_blank">PrismJS Download</a>.</small>
     </p>
     <select id="theme-select">
       <option value="auto">Automatic (Default)</option>
-      <option value="prism-one-light">Light (Prism One Light)</option>
-      <option value="prismjs-tomorrow-night">Dark (Tomorrow Night)</option>
+      <optgroup label="Light Mode">
+        <option value="prism-base16-ateliersulphurpool-light">Ateliersulphurpool-Light</option>
+        <option value="prism-coldark-cold">Coldark Cold</option>
+        <option value="prism-coy-without-shadows">Coy without shadows</option>
+        <option value="prism-coy">Coy</option>
+        <option value="prism-default">Prism Default</option>
+        <option value="prism-duotone-light">Duotone Light</option>
+        <option value="prism-ghcolors">GHColors</option>
+        <option value="prism-gruvbox-light">Gruvbox Light</option>
+        <option value="prism-material-light">Material Light</option>
+        <option value="prism-one-light">One Light</option>
+        <option value="prism-solarizedlight">Solarized Light</option>
+        <option value="prism-vs">VS</option>
+      </optgroup>
+      <optgroup label="Dark Mode">
+        <option value="prism-a11y-dark">a11y Dark</option>
+        <option value="prism-atom-dark">Atom Dark</option>
+        <option value="prism-cb">CB</option>
+        <option value="prism-coldark-dark">Coldark Dark</option>
+        <option value="prism-darcula">Darcula</option>
+        <option value="prism-dark">Dark</option>
+        <option value="prism-dracula">Dracula</option>
+        <option value="prism-duotone-dark">Duotone Dark</option>
+        <option value="prism-duotone-earth">Duotone Earth</option>
+        <option value="prism-duotone-forest">Duotone Forest</option>
+        <option value="prism-duotone-sea">Duotone Sea</option>
+        <option value="prism-duotone-space">Duotone Space</option>
+        <option value="prism-funky">Funky</option>
+        <option value="prism-gruvbox-dark">Gruvbox Dark</option>
+        <option value="prism-holi-theme">Holi Theme</option>
+        <option value="prism-hopscotch">Hopscotch</option>
+        <option value="prism-laserwave">Laserwave</option>
+        <option value="prism-lucario">Lucario</option>
+        <option value="prism-material-dark">Material Dark</option>
+        <option value="prism-material-oceanic">Material Oceanic</option>
+        <option value="prism-night-owl">Night Owl</option>
+        <option value="prism-nord">Nord</option>
+        <option value="prism-okaidia">Okaidia</option>
+        <option value="prism-one-dark">One Dark</option>
+        <option value="prism-pojoaque">Pojoaque</option>
+        <option value="prism-shades-of-purple">Shades of Purple</option>
+        <option value="prism-solarized-dark-atom">Solarized Dark Atom</option>
+        <option value="prism-synthwave84">Synthwave '84</option>
+        <option value="prism-tomorrow-night">Tomorrow Night</option>
+        <option value="prism-twilight">Twilight</option>
+        <option value="prism-vsc-dark-plus">VS Code Dark+</option>
+        <option value="prism-xonokai">Xonokai</option>
+        <option value="prism-z-touch">Z-Touch</option>
+      </optgroup>
     </select>
 
     <hr />
 
-
-    <h2>Granted Hosts</h2>
-
-    <h3>Default Hosts (Always Active)</h3>
-    <ul id="default-hosts-list"></ul>
-
-    <h3>Manage Custom Hosts</h3>
-    <p>
-      Enter a hostname (<code>devops.mycompany.com</code>) or a specific path
-      (<code>devops.mycompany.com/ado</code>). The extension will activate on
-      that page and any sub-pages.
-    </p>
-
-    <input type="text" id="host-input" placeholder="e.g., devops.mycompany.com" size="40" />
-    <button id="add-host-btn">Add Host</button>
-    <ul id="hosts-list"></ul>
-
-    <hr />
 
     <h2>Custom File Type Mappings</h2>
     <p>
@@ -71,6 +103,24 @@
 
     <h3>Your Custom Patterns</h3>
     <ul id="patterns-list"></ul>
+
+    <hr />
+
+    <h2>Granted Hosts</h2>
+
+    <h3>Default Hosts (Always Active)</h3>
+    <ul id="default-hosts-list"></ul>
+
+    <h3>Manage Custom Hosts</h3>
+    <p>
+      Enter a hostname (<code>devops.mycompany.com</code>) or a specific path
+      (<code>devops.mycompany.com/ado</code>). The extension will activate on
+      that page and any sub-pages.
+    </p>
+
+    <input type="text" id="host-input" placeholder="e.g., devops.mycompany.com" size="40" />
+    <button id="add-host-btn">Add Host</button>
+    <ul id="hosts-list"></ul>
   </div>
 
   <script src="browser-polyfill.min.js"></script>

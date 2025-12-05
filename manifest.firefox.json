@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Syntax Highlighter for Azure DevOps",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "description": "Enhances code readability by adding syntax highlighting to code views and diffs within Azure DevOps, including pull requests.",
   "icons": {
     "16": "assets/icons/icon16.png",
