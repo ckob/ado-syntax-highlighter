@@ -78,7 +78,7 @@ function getTheme(element) {
 
   const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-  theme = luminance > 0.5 ? 'prismjs-tomorrow-night' : 'prism-one-light';
+  theme = luminance > 0.5 ? 'prism-tomorrow-night' : 'prism-one-light';
   return theme;
 }
 
