@@ -1,0 +1,19 @@
+{
+  "name": "ado-syntax-highlighter",
+  "version": "0.0.0",
+  "main": "content_script.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckob/ado-syntax-highlighter.git"
+  },
+  "keywords": [],
+  "author": "https://github.com/ckob",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ckob/ado-syntax-highlighter/issues"
+  },
+  "homepage": "https://github.com/ckob/ado-syntax-highlighter",
+  "devDependencies": {
+    "terser": "^5.44.1"
+  }
+}
