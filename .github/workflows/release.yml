@@ -2,6 +2,8 @@ name: Create Release
 
 on:
   push:
+    branches:
+      - feat/bookmarklet
     tags:
       - 'v*.*.*' # Triggers on tags like v1.0.0
   workflow_dispatch:
