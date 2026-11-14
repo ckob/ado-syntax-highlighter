@@ -63,6 +63,19 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 **Note:** This is a temporary add-on and will need to be reloaded every time you restart Firefox.
 
+### Bookmarklet (No Extension Required)
+
+If you cannot install browser extensions due to corporate security policies, you can use the bookmarklet version instead:
+
+1. Visit the [**Bookmarklet Installer Page**](https://ckob.github.io/ado-syntax-highlighter/).
+2. Choose between:
+   - **Self-Contained:** Includes Prism and styles inline with zero external network requests (recommended for strict corporate networks or Content Security Policies).
+   - **Lightweight Loader:** A tiny bookmark that fetches the latest bundle from GitHub Pages automatically.
+3. Drag the button onto your bookmarks bar (or click **Copy URL** and paste it into a new bookmark's URL field).
+4. Open any Azure DevOps Pull Request, go to the **Files** tab, and click the bookmarklet.
+
+*(The raw `bookmarklet-bundled.txt` and `bookmarklet-loader.txt` files are also attached to each [**GitHub Release**](https://github.com/ckob/ado-syntax-highlighter/releases/latest).)*
+
 ## Usage
 
 Once installed, the extension will automatically apply syntax highlighting to files in any Azure DevOps pull request you view. There are no additional steps required.
