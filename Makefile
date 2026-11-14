@@ -19,8 +19,8 @@ COMMON_DIRS := \
 	assets
 
 # --- Primary Targets ---
-all: chrome firefox
-package: package-chrome package-firefox
+all: chrome firefox bookmarklet
+package: package-chrome package-firefox bookmarklet
 
 clean:
 	@echo "Cleaning..."
@@ -71,4 +71,9 @@ package-firefox: firefox
 	@rm -f $(FIREFOX_ZIP)
 	@cd $(FIREFOX_BUILD) && zip -r ../$(notdir $(FIREFOX_ZIP)) . -x "*.DS_Store"
 
-.PHONY: all package clean chrome firefox package-chrome package-firefox
+# --- Bookmarklet & Pages Target ---
+bookmarklet:
+	@echo "Building bookmarklets and GitHub Pages..."
+	@node scripts/build-bookmarklet.mjs
+
+.PHONY: all package clean chrome firefox package-chrome package-firefox bookmarklet

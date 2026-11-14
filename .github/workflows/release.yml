@@ -4,13 +4,21 @@ on:
   push:
     tags:
       - 'v*.*.*' # Triggers on tags like v1.0.0
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-release:
     name: Build and Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Check out code
@@ -24,12 +32,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build and package extensions
+      - name: Build and package extensions & bookmarklets
         run: make package
 
       - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |
             dist/chrome-extension.zip
             dist/firefox-extension.zip
+            dist/bookmarklet-bundled.txt
+            dist/bookmarklet-loader.txt
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/pages
+
+  deploy-pages:
+    name: Deploy Bookmarklet Page
+    needs: build-release
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

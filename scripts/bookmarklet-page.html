@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADO Syntax Highlighter — Bookmarklet</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f8fa;
+      --card: #ffffff;
+      --border: #d0d7de;
+      --text: #1f2328;
+      --muted: #656d76;
+      --accent: #0969da;
+      --accent-hover: #0550ae;
+      --badge-bg: #ddf4ff;
+      --badge-text: #0969da;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --card: #161b22;
+        --border: #30363d;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #2f81f7;
+        --accent-hover: #58a6ff;
+        --badge-bg: #1f334d;
+        --badge-text: #58a6ff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    main {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.75rem;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      vertical-align: middle;
+    }
+    .controls {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    select {
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .card h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.15rem;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .drag-btn {
+      display: inline-block;
+      padding: 0.55rem 1rem;
+      border-radius: 6px;
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: grab;
+      user-select: none;
+    }
+    .drag-btn:hover {
+      background: var(--accent-hover);
+    }
+    .copy-btn {
+      padding: 0.55rem 0.9rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      border-color: var(--accent);
+    }
+    .howto {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .howto h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+    .howto ol {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    footer {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>ADO Syntax Highlighter <span class="badge">v{{VERSION}}</span></h1>
+      <p class="subtitle">Bookmarklet edition for environments where browser extensions cannot be installed.</p>
+    </header>
+
+    <section class="controls">
+      <label for="theme-select"><strong>Theme Preference:</strong></label>
+      <select id="theme-select">
+        <option value="auto">Auto (matches Azure DevOps light/dark)</option>
+        <option value="prism-one-light">Light (One Light)</option>
+        <option value="prism-tomorrow-night">Dark (Tomorrow Night)</option>
+      </select>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div>
+          <h2>Self-Contained <span class="badge">{{BUNDLED_SIZE_KB}} KB</span></h2>
+          <p>Includes Prism and styles inline with zero external network requests. Best for strict corporate networks, proxies, or Content Security Policies.</p>
+        </div>
+        <div class="actions">
+          <a id="bundled-link" class="drag-btn" href="#">ADO Syntax Highlighter</a>
+          <button type="button" class="copy-btn" data-target="bundled">Copy URL</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>Lightweight Loader <span class="badge">{{LOADER_SIZE_BYTES}} B</span></h2>
+          <p>Tiny bookmark that fetches the latest bundle from GitHub Pages automatically. May be blocked by strict corporate CSP headers.</p>
+        </div>
+        <div class="actions">
+          <a id="loader-link" class="drag-btn" href="#">ADO Syntax Highlighter (Lite)</a>
+          <button type="button" class="copy-btn" data-target="loader">Copy URL</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="howto">
+      <h2>How to install &amp; use</h2>
+      <ol>
+        <li>Drag one of the blue buttons above onto your browser's bookmarks bar (or click <strong>Copy URL</strong>, create a new bookmark, and paste it as the URL).</li>
+        <li>Open any Azure DevOps Pull Request and go to the <strong>Files</strong> tab.</li>
+        <li>Click the bookmarklet to highlight the diffs.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <a href="https://github.com/ckob/ado-syntax-highlighter">View on GitHub</a> ·
+      <a href="https://github.com/ckob/ado-syntax-highlighter/releases/latest">Latest Release</a>
+    </footer>
+  </main>
+
+  <script>
+    const BASE_BUNDLED = {{BUNDLED_URL_JSON}};
+    const BASE_LOADER = {{LOADER_URL_JSON}};
+
+    const bundledLink = document.getElementById('bundled-link');
+    const loaderLink = document.getElementById('loader-link');
+    const themeSelect = document.getElementById('theme-select');
+
+    function withTheme(baseUrl, theme) {
+      if (theme === 'auto') return baseUrl;
+      const prefix = encodeURIComponent('window.__adoSyntaxHighlighterConfig={themePreference:' + JSON.stringify(theme) + '};');
+      return 'javascript:' + prefix + baseUrl.slice('javascript:'.length);
+    }
+
+    function updateLinks() {
+      const theme = themeSelect.value;
+      bundledLink.href = withTheme(BASE_BUNDLED, theme);
+      loaderLink.href = withTheme(BASE_LOADER, theme);
+    }
+
+    themeSelect.addEventListener('change', updateLinks);
+    updateLinks();
+
+    document.querySelectorAll('.copy-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const href = btn.dataset.target === 'bundled' ? bundledLink.href : loaderLink.href;
+        await navigator.clipboard.writeText(href);
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = original; }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>

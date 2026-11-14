@@ -13,8 +13,21 @@ const defaultFilePatternToLanguage = {
 let customFilePatterns = {};
 let themePreference = 'auto';
 
-// Load custom patterns and theme preference from storage
+// Load custom patterns and theme preference from storage (with optional global override for bookmarklet)
 async function loadSettings() {
+  const globalConfig = window.__adoSyntaxHighlighterConfig;
+  if (globalConfig) {
+    customFilePatterns = globalConfig.customFilePatterns || {};
+    themePreference = globalConfig.themePreference || 'auto';
+    return;
+  }
+
+  if (typeof browser === 'undefined' || !browser.storage?.sync) {
+    customFilePatterns = {};
+    themePreference = 'auto';
+    return;
+  }
+
   try {
     const result = await browser.storage.sync.get(['customFilePatterns', 'themePreference']);
     customFilePatterns = result.customFilePatterns || {};
@@ -149,12 +162,49 @@ function applySyntaxHighlighting() {
   });
 }
 
-console.debug("ADO Syntax Highlighter: Content script loaded.");
+function runHighlighting() {
+  return loadSettings().then(() => {
+    applySyntaxHighlighting();
+  });
+}
 
-// Load custom patterns and then apply highlighting
-loadSettings().then(() => {
-  applySyntaxHighlighting();
-});
+window.__adoSyntaxHighlighterRun = runHighlighting;
+
+if (!window.__adoSyntaxHighlighterInitialized) {
+  window.__adoSyntaxHighlighterInitialized = true;
+
+  console.debug("ADO Syntax Highlighter: Content script loaded.");
+
+  runHighlighting();
+
+  const debouncedApplyHighlighting = debounce(applySyntaxHighlighting, 250);
+
+  // Listen for URL changes
+  window.addEventListener('popstate', debouncedApplyHighlighting);
+
+  // Observe DOM changes for dynamically loaded content
+  new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (!(mutation.type === 'childList' && mutation.addedNodes.length > 0)) {
+        continue;
+      }
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== Node.ELEMENT_NODE) {
+          continue;
+        }
+        if (
+          node.matches?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header') ||
+          node.querySelector?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header')
+        ) {
+          debouncedApplyHighlighting();
+          return;
+        }
+      }
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+} else {
+  runHighlighting();
+}
 
 function debounce(func, wait) {
   let timeout;
@@ -167,28 +217,3 @@ function debounce(func, wait) {
     timeout = setTimeout(later, wait);
   };
 }
-const debouncedApplyHighlighting = debounce(applySyntaxHighlighting, 250);
-
-// Listen for URL changes
-window.addEventListener('popstate', debouncedApplyHighlighting);
-
-// Observe DOM changes for dynamically loaded content
-new MutationObserver((mutationsList) => {
-  for (const mutation of mutationsList) {
-    if (!(mutation.type === 'childList' && mutation.addedNodes.length > 0)) {
-      continue;
-    }
-    for (const node of mutation.addedNodes) {
-      if (node.nodeType !== Node.ELEMENT_NODE) {
-        continue;
-      }
-      if (
-        node.matches?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header') ||
-        node.querySelector?.('.repos-summary-code-diff, .vc-diff-viewer, .diff-frame, .repos-diff-contents-row, .bolt-card, .repos-pr-iteration-file-header')
-      ) {
-        debouncedApplyHighlighting();
-        return;
-      }
-    }
-  }
-}).observe(document.body, { childList: true, subtree: true });
