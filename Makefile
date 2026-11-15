@@ -76,4 +76,8 @@ bookmarklet:
 	@echo "Building bookmarklets and GitHub Pages..."
 	@node scripts/build-bookmarklet.mjs
 
-.PHONY: all package clean chrome firefox package-chrome package-firefox bookmarklet
+validate: package
+	@echo "Validating build..."
+	@node scripts/validate.mjs
+
+.PHONY: all package clean chrome firefox package-chrome package-firefox bookmarklet validate
