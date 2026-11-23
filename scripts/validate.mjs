@@ -35,6 +35,8 @@ function main() {
     'content_script.js',
     'options.js',
     'scripts/build-bookmarklet.mjs',
+    'scripts/publish-chrome.mjs',
+    'scripts/publish-firefox.mjs',
     'dist/pages/bundle.js',
   ];
   for (const file of jsFiles) {
